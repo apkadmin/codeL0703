@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans&family=Roboto:wght@100&display=swap"
+		rel="stylesheet">
+
+<body>
+	<style>
+		.container {
+			width: 50vw;
+			height: 100vh;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+
+		.post_container {
+			width: 60%;
+			background-color: white;
+			border-radius: 20px;
+			padding: 10px;
+		}
+
+		button {
+			border: unset;
+			background-color: unset;
+		}
+
+		body {
+			justify-content: center;
+			background-color: #f0f2f5;
+			align-items: center;
+			display: flex;
+		}
+		input{
+			border: unset;
+		}
+		input:focus{
+			outline: unset;
+		}
+	</style>
+	<div class="container">
+		<div class="post_container">
+			<div>
+				<p id="postcontent"></p>
+				<img id="image" width="100%">
+			</div>
+			<div style="border-bottom: solid 1px #ded6d6;">
+				<div style="    height: 40px;
+			display: flex;
+			justify-content: space-between;
+			align-items: center; color: gray;">
+					<div>
+						😀😝6
+					</div>
+					<div>
+						2 bình luận
+					</div>
+				</div>
+			</div>
+			<div style="    display: flex;
+		border-bottom: solid 1px #ded6d6;
+		justify-content: space-around;
+		height: 40px;
+		align-items: center;
+		color: gray;
+	}">
+				<div>
+					<i class="far fa-thumbs-up"></i>
+					<span>Thích</span>
+				</div>
+				<div>
+					<i class="far fa-comment-alt"></i>
+					<span>Bình luận</span>
+				</div>
+			</div>
+			<div id="commentData"></div>
+			<div style="margin-top: 15px;">
+				<div style="display: flex; align-items: center;">
+					<div>
+						<img src="../public/images/you.jpg" alt="" srcset="" height="40px" width="40px"
+						style="border-radius: 100px;">
+	
+					</div>
+					<div style="background-color: #0f9c821c;
+					display: flex;
+					margin-left: 5px;
+					width: 100%;
+					border-radius: 20px;
+					height: 35px; align-items: center; justify-content: space-evenly;">
+	
+						<input type="text" style="margin-left: 10px;background-color: unset;    width: inherit;" id="comment" placeholder="Viết bình luận...">
+						<div style="display: flex;">
+							
+							<button><i class="far fa-smile"></i></button>
+						<button><i class="fas fa-camera"></i></button>
+						</div>
+					</div>
+				</div> 
+				
+			
+			</div>
+
+
+		</div>
+	</div>
+</body>
+<script type="text/html" id="commentBlock">
+	<div style="padding-top: 10px;">
+		<div style="display: flex;font-family: 'Noto Sans', sans-serif;">
+			<div>
+				<img src="$usercomment" alt="" srcset="" height="40px" width="40px"
+					style="border-radius: 100px;">
+			</div>
+			<div style="margin-left: 5px;
+						background-color: #eaf6ff;
+						border-radius: 20px;
+						padding: 3px 10px; position: relative;
+						margin-right: 20px;">
+				<div style="font-weight:600;">$userid</div>
+				<div>$comment</div>
+					<div style="position: absolute;
+					color: black;
+					bottom: -10px;
+					background-color: #ffffff;
+					border-radius: 15px;
+					right: 15px;">
+						😝1
+					</div>
+					
+			</div>
+			
+		</div>
+		<div style="
+		margin-left: 50px;
+	">
+			<button>Thích</button>
+			<button>Trả lời</button>
+			<span>1 giờ</span>
+		</div>
+	</div>
+</script>
+<script>
+	(function () {
+		var requestOptions = {
+			method: 'GET',
+			redirect: 'follow'
+		};
+
+		fetch("http://localhost/bussiness/service/getPost.php?id=1", requestOptions)
+			.then(response => response.json())
+			.then(result => {
+				let img = document.getElementById("image");
+				img.src = result["data"]["imge"];
+				let content = document.getElementById("postcontent");
+				content.innerHTML = result["data"]["content"];
+				return result["data"]["auth_id"];
+			}).then(async (id) => {
+				await fetch("http://localhost/bussiness/service/getComment.php?id=" + id, requestOptions).then(data => data.json()).then(data => {
+					data["data"].forEach(item => {
+
+						let comment = document.getElementById("commentData");
+						let commentBlock = document.getElementById("commentBlock");
+						let div = document.createElement("div");
+						if (item["subchild"] == 1) {
+							div.style.marginLeft = "40px";
+						}
+						var html = commentBlock.innerHTML.replace("$comment", item["content"]);
+						html = html.replace("$userid", item["user"]["name"]).replace("$usercomment", item["user"]["avatar"]);
+						div.innerHTML = html
+						comment.appendChild(div);
+						// fetch("http://localhost/bussiness/service/user.php?id=" + item["user_id"], requestOptions).then(data => data.json()).then(data => {
+
+							
+							
+						// 	comment.innerText = item["content"];
+						// });
+					})
+
+				});
+
+			})
+			.catch(error => console.log('error', error));
+	})()
+
+</script>
+
+</html>

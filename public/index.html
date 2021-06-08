@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Trang chu</title>
+</head>
+<body>
+<style>
+.card_container{
+	    box-shadow: 0px 0 3px 0px;
+    width: 400px;
+    height: 600px;
+
+
+}
+.card_img{
+	position: relative;
+	    display: grid;
+}
+.logo{
+	width: 30%;
+    position: absolute;
+    height: 41px;
+    right: 10px;
+    top: 10px;
+}
+.card_body{
+	padding: 10px;
+}
+</style>
+
+
+<div id="main"></div>
+
+
+<script id="card" type="text/html">
+<div class="card_container">
+	
+	<div>
+		<div class="card_img">
+		<img src="http://localhost/bussiness/service/upload/60b58738497e5" class="thumb_nai" width="400" height="200">
+		<img src="http://localhost/bussiness/service/upload/icon.jpg" class="logo" width="400" height="200">
+	</div>
+		<div class="card_body">
+			<h2>Vin group</h3>
+				<p style="color: gray;
+    font-family: sans-serif;">
+					Tiền thân của Vingroup là Tập đoàn Technocom, thành lập năm 1993 tại Ucraina. Đầu những năm 2000, Technocom trở về Việt Nam, tập trung đầu tư vào lĩnh vực du lịch và bất động sản với hai thương hiệu chiến lược ban đầu là Vinpearl và Vincom. Đến tháng 1/2012, công ty CP Vincom và Công ty CP Vinpearl sáp nhập, chính thức hoạt động dưới mô hình Tập đoàn với tên gọi Tập đoàn Vingroup – Công ty CP
+				</p>
+		</div>
+	</div>
+
+</div>
+
+	
+</script>
+
+<script type="text/javascript">
+	(function(){
+		let main = document.getElementById("main");
+		let card = document.getElementById("card");
+
+		for(let i=0; i< 10; i++){
+			let temp = document.createElement("div");
+			temp.innerHTML = card.innerHTML;
+			main.appendChild(temp);
+		}
+		
+	})()
+</script>
+</body>
+</html>
